@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>市町村をまとめた地域</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id='map'></div>
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1Ijoia2F0ZWdhcnUiLCJhIjoiY2p3N2Q5cndjMWdrMzQ4cXNyeXl5MXk3MiJ9.PDC93lE1GfrA_hgSWTP_zg'
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/kategaru/cjw7j567r4rrj1cpi4njh21v6',
+        center: [139.944071, 35.668126],
+        zoom: 5
+      })
+
+      map.on('load', function () {
+        map.on('click', 'jp', function (e) {
+          const coordinates = e.features[0].geometry.coordinates.slice()
+          const description = e.features[0].properties.divisionName
+
+          new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(description)
+            .addTo(map)
+        })
+      })
+
+      map.scrollZoom.disable()
+    </script>
+  </body>
+</html>
